@@ -1,0 +1,46 @@
+.paragraph {
+  font-family: Montserrat, sans-serif;
+  font-size: 20px;
+  line-height: 31px;
+  width: 1120px;
+  margin-left: 412px;
+  margin-top: -104px;
+  text-align: initial;
+}
+
+.heading {
+  font-size: 36px;
+  margin-top: 178px;
+  margin-left: 841px;
+}
+
+.heading3 {
+  font-size: 23px;
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+  margin-right: 0.5rem !important;
+  margin-left: 25.5rem !important;
+  margin-top: -81px;
+}
+
+
+@media screen and (max-width: 768px) {
+
+  .heading3 {
+    font-size: 21px;
+    margin-left: 2rem !important;
+  }
+
+  .paragraph {
+    font-size: 19px;
+    text-align: justify;
+    width: 323px;
+    margin-left: 32px;
+  }
+
+  .heading {
+    margin-left: 110px;
+  }
+
+
+}
