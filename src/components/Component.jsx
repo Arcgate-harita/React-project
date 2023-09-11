@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from "react";
-import "../components/Component.css";
 
 const Component = ({ images }) => {
   const [startIndex, setStartIndex] = useState(0);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isMobileView, setIsMobileView] = useState(false);
 
+  {/* for image resize on smaller screens*/ }
   useEffect(() => {
-    // Check if the screen width is less than or equal to 768 pixels (typical tablet width)
     const handleResize = () => {
       setIsMobileView(window.innerWidth <= 768);
     };
 
-    // Add event listener to check for window resize
     window.addEventListener("resize", handleResize);
-    handleResize(); // Check initially when the component mounts
+    handleResize();
 
-    // Remove the event listener when the component unmounts
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -38,39 +35,45 @@ const Component = ({ images }) => {
     setStartIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
 
-  // Determine the number of visible images based on screen size
   const numVisibleImages = isMobileView ? 1 : 3;
-
-  // Slice the images array to display the appropriate number of images
   const visibleImages = images.slice(startIndex, startIndex + numVisibleImages);
-
   const showScrollButtons = images.length > numVisibleImages;
 
   return (
-    <div className={`image-gallery${isMobileView ? " mobile-view" : ""}`}>
+    <div className={`flex items-center justify-center p-4 md:p-8`}>
       {showScrollButtons && (
         <button
-          className="scroll-button1"
+          className="scroll-button1 absolute top-1/2 transform -translate-y-1/2 left-4 md:left-8"
           onClick={handlePrevImages}
           disabled={startIndex === 0}
         >
           &lt;
         </button>
       )}
-      <div className="image-row">
-        {visibleImages.map((image, index) => (
-          <img
-            key={index}
-            src={image}
-            alt={`Image ${index}`}
-            className={`circleImage${isMobileView ? " mobile-image" : ""}`}
-            onClick={() => handleImageClick(image)}
-          />
-        ))}
+      <div className={`w-full md:w-2/3 lg:w-1/2 xl:w-1/3 mx-auto`}>
+        <div className={`flex mx-2`}>
+          {visibleImages.map((image, index) => (
+            <div
+              key={index}
+              className={`w-1/2 md:w-1/3 lg:w-1/4 p-2 max-w-[200px] max-h-[296px]${
+                isMobileView ? "md:w-full" : ""
+              }`}
+            >
+              <img
+                src={image}
+                alt={`Image ${index}`}
+                className={`w-1/4 h-auto max-w-[200px] max-h-[296px] rounded cursor-pointer ${
+                  isMobileView ? "md:mb-4" : "md:hover:scale-105"
+                }`}
+                onClick={() => handleImageClick(image)}
+              />
+            </div>
+          ))}
+        </div>
       </div>
       {showScrollButtons && (
         <button
-          className="scroll-button2"
+          className="scroll-button2 absolute top-1/2 transform -translate-y-1/2 right-4 md:right-8"
           onClick={handleNextImages}
           disabled={startIndex === images.length - numVisibleImages}
         >
@@ -78,15 +81,21 @@ const Component = ({ images }) => {
         </button>
       )}
       {selectedImage && (
-        <div className="modal">
-          <span className="close-button" onClick={handleCloseModal}>
-            &times;
-          </span>
-          <img
-            src={selectedImage}
-            alt="Full Screen"
-            className="full-screen-image"
-          />
+        <div className="modal fixed inset-0 flex items-center justify-center z-10">
+          <div className="modal-overlay fixed inset-0 bg-black opacity-50"></div>
+          <div className="modal-container bg-white mx-auto rounded-lg p-4 md:p-8 overflow-hidden shadow-lg z-50">
+            <span
+              className="close-button absolute top-0 right-0 px-4 py-2 text-xl cursor-pointer"
+              onClick={handleCloseModal}
+            >
+              &times;
+            </span>
+            <img
+              src={selectedImage}
+              alt="Full Screen"
+              className="full-screen-image max-h-screen mx-auto"
+            />
+          </div>
         </div>
       )}
     </div>
