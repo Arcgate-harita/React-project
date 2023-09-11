@@ -1,3 +1,8 @@
 # Arcgate-foundation-project-react
-# React-project
-# React-project
+
+For code installation :-
+
+node -v
+nvm use v18
+npm install
+npm start
