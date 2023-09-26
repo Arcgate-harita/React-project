@@ -14,9 +14,8 @@ const Component = ({ images }) => {
 
     // Add event listener to check for window resize
     window.addEventListener("resize", handleResize);
-    handleResize(); // Check initially when the component mounts
+    handleResize();
 
-    // Remove the event listener when the component unmounts
     return () => {
       window.removeEventListener("resize", handleResize);
     };
